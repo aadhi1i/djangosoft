@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Card</title>
+    
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e9e3e3;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            position: relative;
+        }
+
+        
+        .logo-container {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            display: flex;
+            align-items: center;
+            background-color: #d3c7c7; 
+            border: 1px solid #e0e0e0; 
+            padding: 8px 15px; 
+            border-radius: 20px; 
+            z-index: 10; 
+        }
+
+        .logo {
+            width: 40px; 
+            height: 40px; 
+            border-radius: 50%;
+            background-color: red;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 18px; 
+            font-weight: bold;
+            margin-right: 8px; 
+        }
+
+        .company-name {
+            font-size: 16px; 
+            font-weight: bold;
+            color: #333;
+        }
+
+        
+        .header {
+            width: 100%;
+            padding: 20px;
+            text-align: center;
+            color: black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            position: relative;
+            margin-top: 80px; 
+        }
+
+        .breadcrumb {
+            font-size: 14px;
+            color: #555;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+
+        .search-container {
+            position: relative;
+            width: 200px;
+        }
+
+        .search-bar {
+            width: 100%;
+            padding: 8px 30px 8px 10px; 
+            border-radius: 15px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+
+        .search-container i {
+            position: absolute;
+            top: 50%;
+            right: -20px;
+            transform: translateY(-50%);
+            color: #ccc;
+            cursor: pointer;
+        }
+
+        .title-container {
+            width: 100%;
+            text-align: left;  
+            margin-left: 20px;  
+        }
+
+        h3 {
+            font-size: 24px; 
+            font-weight: bold;
+            margin: 0; 
+            color: #131212;
+        }
+
+        
+        .employee-cards {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .card {
+            background-color: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            width: 300px;
+            text-align: center;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin: 10px;
+        }
+
+        .profile-img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 3px solid #ddd;
+            object-fit: cover;
+            margin: 0 auto 10px;
+        }
+
+        .profile-img-fallback {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background-color: #676967; 
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 20px;
+            font-weight: bold;
+            margin: 0 auto 10px;
+        }
+
+        .employee-name {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+            margin: 10px 0 5px;
+        }
+
+        .employee-email {
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 20px;
+        }
+
+        .details {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .details div {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .details div strong {
+            color: #333;
+        }
+
+        .separator {
+            border-bottom: 1px solid #ddd;
+            margin: 10px 0;
+        }
+
+        .action-icons {
+            display: flex;
+            justify-content: space-between; 
+            align-items: center;
+            margin-top: 15px;
+        }
+
+        .action-icons i {
+            font-size: 18px;
+            color: #0a0a0a;
+            cursor: pointer;
+        }
+
+        .action-icons i:hover {
+            color: #030303;
+        }
+
+        .action-icons .view-icon {
+            flex: 1;
+            text-align: center; 
+        }
+
+        .plus-icon {
+            position: fixed;
+            top: 90px;
+            right: 20px;
+            background-color: white;
+            color: blue;
+            font-size: 30px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .plus-icon:hover {
+            background-color:blue;
+        }
+
+        .plus-icon a {
+            color: black;
+            text-decoration: none;
+            font-size: 20px; 
+        }
+
+    </style>
+</head>
+<body>
+   
+    
+    <div class="logo-container">
+        <div class="logo">RI</div>
+        <div class="company-name">Rajodiya Infotech</div>
+    </div>
+
+    
+    <div class="header">
+        <form method="POST">
+            {% csrf_token %}
+            <div class="search-container">
+                <input type="text" name="Search" class="search-bar" placeholder="Search" value="{{ request.POST.search }}">
+                <i class="fas fa-search"></i>
+            </div>
+        </form>
+    </div>
+
+    
+    <div class="breadcrumb">
+        Dashboard > Staff > Employee
+    </div>
+
+    
+    <div class="title-container">
+        <h3>Employee</h3>
+    </div>
+
+    
+    <div class="employee-cards">
+        {% for i in value %}
+            <div class="card">
+                {% if i.Photo %}
+                    <img src="{{ i.Photo.url }}" alt="Employee Photo" class="profile-img">
+                {% else %}
+                    <div class="profile-img-fallback">
+                        {{ i.Name|slice:":1" }}{{ i.Name|slice:"3:4" }}
+                    </div>
+                {% endif %}
+                
+                <div class="employee-name">{{ i.Name }}</div>
+                <div class="employee-email">{{ i.Email }}</div>
+
+                <div class="action-icons">
+                    <a href="{% url 'update' i.id %}">
+                    <i title="Edit Profile" class="fas fa-user-edit"></i>
+                    </a>
+                    <div class="view-icon">
+                        <i title="View" class="fas fa-eye"></i> 
+                    </div>
+                    <a href="{% url 'dlt' i.id %}"> 
+                        <i title="Delete" class="fas fa-trash-alt"></i> 
+                    </a>
+                </div>
+
+                <div class="separator"></div>
+
+                <div class="details">
+                    <div>
+                        <strong>{{ i.Department }}</strong><br>
+                        Department
+                    </div>
+                    <div>
+                        <strong>{{ i.Designation }}</strong><br>
+                        Designation
+                    </div>
+                </div>
+
+                <div class="details">
+                    <div>
+                        <strong>{{ i.Start_date }}</strong><br>
+                        Date of Joining
+                    </div>
+                    <div>
+                        <strong>${{ i.Salary }}</strong><br>
+                        Salary
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    
+    <div class="plus-icon">
+        <a href="{% url 'create' %}">+</a>
+    </div>
+
+</body>
+</html>

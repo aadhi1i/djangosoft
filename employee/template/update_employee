@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Employee</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background-color: white;
+            border-radius: 10px;
+            width: 60%;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        table {
+            width: 100%;
+            margin: 20px 0;
+            border-collapse: collapse;
+        }
+
+        td, th {
+            padding: 10px;
+            text-align: left;
+            border: 1px solid #e0e0e0;
+        }
+
+        td input {
+            width: 100%;
+            padding: 8px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+
+        .button-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .update-btn {
+            padding: 10px 20px;
+            background-color: blue;
+            color: white;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .update-btn:hover {
+            background-color: darkblue;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Update Employee Details</h2>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <table>
+                <tr>
+                    <th>Name</th>
+                    <td><input type="text" name="name" value="{{ value.Name }}" required></td>
+                </tr>
+                <tr>
+                    <th>Email</th>
+                    <td><input type="text" name="email" value="{{ value.Email}}" required></td>
+                </tr>
+                <tr>
+                    <th>Department</th>
+                    <td><input type="text" name="department" value="{{ value.Department }}" required></td>
+                </tr>
+                <tr>
+                    <th>Designation</th>
+                    <td><input type="text" name="designation" value="{{ value.Designation }}" required></td>
+                </tr>
+                <tr>
+                    <th>Start Date</th>
+                    <td><input type="date" name="date" value="{{ value.Start_date | date:'Y-m-d' }}" required></td>
+                </tr>
+                <tr>
+                    <th>Salary</th>
+                    <td><input type="number" name="salary" value="{{ value.Salary }}" required></td>
+                </tr>
+                <tr>
+                    <th>Profile Image</th>
+                    <td>
+                        {% if value.Photo %}
+                            <img src="{{ value.Photo.url }}" alt="Profile Image" style="width: 100px; height: 100px;">
+                        {% endif %}
+                        <input type="file" name="image">
+                    </td>
+                </tr>
+            </table>
+
+            <div class="button-container">
+                <button type="submit" class="update-btn">Update Employee</button>
+            </div>
+        </form>
+    </div>
+
+</body>
+</html>
